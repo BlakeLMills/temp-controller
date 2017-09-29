@@ -2,6 +2,7 @@ import os
 import glob
 import time
 import datetime
+import numpy
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -41,7 +42,8 @@ def loop(file):
 		tempArray.append(deg_f)
 		if len(tempArray) > 60:
 			tempArray.pop(0)
-		print tempArray
+			rollingAvg = numpy.sum(tempArray)
+			print rollingAvg
 		file.write(repr(timeStamp()) + ' ')
 		file.write(repr(deg_c) + ' C, ')
 		file.write(repr(deg_f) + ' F\n')
