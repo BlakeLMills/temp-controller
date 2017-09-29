@@ -34,10 +34,10 @@ def read_temp():
         temp_f = temp_c * 9.0 / 5.0 + 32.0
         return temp_c, temp_f
 
-def loop():
+def loop(file):
 	while True:
 		deg_c, deg_f = read_temp()
-		file.write(repr(time.time()) + ' ')
+		file.write(repr(timeStamp()) + ' ')
 		file.write(repr(deg_c) + ' C, ')
 		file.write(repr(deg_f) + ' F\n')
 		print timeStamp(), deg_f
@@ -49,7 +49,7 @@ def destroy():
 if __name__ == '__main__':     # Program start from here
 	try:
 		file = open(timeStamp() + "TempRecord.txt", "w", buffsize)
-		loop()
+		loop(file)
 	except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
 		destroy()
 
