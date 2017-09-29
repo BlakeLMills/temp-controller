@@ -43,7 +43,7 @@ def loop(file):
 		if len(tempArray) > 60:
 			tempArray.pop(0)
 			rollingAvg = numpy.sum(tempArray)/len(tempArray)
-			print rollingAvg
+			print rollingAvg, len(tempArray)
 		file.write(repr(timeStamp()) + ' ')
 		file.write(repr(deg_c) + ' C, ')
 		file.write(repr(deg_f) + ' F\n')
