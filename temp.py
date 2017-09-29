@@ -37,10 +37,9 @@ def read_temp():
 def loop():
 	while True:
 		deg_c, deg_f = read_temp()
-		#file.write(repr(time.time()) + ' ')
-		#file.write(repr(deg_c) + ' C, ')
-		#file.write(repr(deg_f) + ' F\n')
-		#print(deg_f, time.time(), file=file)
+		file.write(repr(time.time()) + ' ')
+		file.write(repr(deg_c) + ' C, ')
+		file.write(repr(deg_f) + ' F\n')
 		print timeStamp(), deg_f
 		time.sleep(1)
 
