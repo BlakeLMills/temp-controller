@@ -39,7 +39,7 @@ def loop(file):
 	while True:
 		deg_c, deg_f = read_temp()
 		tempArray.append(deg_f)
-		if len(temArray) > 60:
+		if len(tempArray) > 60:
 			tempArray.pop(0)
 		print tempArray
 		file.write(repr(timeStamp()) + ' ')
