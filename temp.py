@@ -70,7 +70,7 @@ def loop(file):
 	while True:
 		deg_c, deg_f = read_temp()
 		tempArray.append(deg_f)
-		if len(tempArray) > 60:
+		if len(tempArray) > 20:
 			tempArray.pop(0)
 			rollingAvg = numpy.sum(tempArray)/len(tempArray)
 			print rollingAvg, len(tempArray)
@@ -83,7 +83,7 @@ def loop(file):
 		file.write(repr(deg_c) + ' C, ')
 		file.write(repr(deg_f) + ' F\n')
 		print timeStamp(), deg_f
-		time.sleep(1)
+		time.sleep(0.5)
 
 def destroy():
 	GPIO.output(RelayPin, GPIO.HIGH)   # Relay off
