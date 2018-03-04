@@ -4,31 +4,40 @@ import time
 import datetime
 import numpy
 
+# OS Calls to open the temperature probe
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
 buffsize = 0
 
-
+# Base Directory of the temperature probe
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
+# Function to return current time stamp UTC
 def timeStamp():
 	return datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%dT%H.%M.%S')
 
+# Function to read raw temperature
 def read_temp_raw():
+	# open the device to be read
     f = open(device_file, 'r')
     lines = f.readlines()
+	# close the device
     f.close()
     return lines
 
+# function to strip the temperature
 def read_temp():
+	# call raw temp function
     lines = read_temp_raw()
+	# loop over the line to get the temp
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
         lines = read_temp_raw()
     equals_pos = lines[1].find('t=')
+	# convert the temperature if the temperature is valid
     if equals_pos != -1:
         temp_string = lines[1][equals_pos+2:]
         temp_c = float(temp_string) / 1000.0
