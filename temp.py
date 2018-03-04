@@ -3,6 +3,7 @@ import glob
 import time
 import datetime
 import numpy
+import RPi.GPIO as GPIO
 
 # OS Calls to open the temperature probe
 os.system('modprobe w1-gpio')
