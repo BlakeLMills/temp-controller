@@ -44,6 +44,7 @@ def read_temp():
         temp_f = temp_c * 9.0 / 5.0 + 32.0
         return temp_c, temp_f
 
+# Loop to call read temp and create a rolling average
 def loop(file):
 	tempArray = []
 	while True:
