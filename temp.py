@@ -9,11 +9,29 @@ os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
 buffsize = 0
+RelayPin = 13    # pin13
+currentState = 0 # State of relay
 
 # Base Directory of the temperature probe
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
+
+# Setup GPIOs
+def setup():
+	GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
+	GPIO.setup(RelayPin, GPIO.OUT)   # Set RelayPin's mode is output
+	GPIO.output(RelayPin, GPIO.HIGH) # Set RelayPin high(+3.3V) to off led
+
+# Function to turn On outlet
+def turnOnPower():
+	GPIO.output(RelayPin, GPIO.LOW)  # Relay on
+	currentState = 1
+
+# Function to turn Off outlet
+def turnOffPower():
+	GPIO.output(RelayPin, GPIO.HIGH) # Relay off
+	currentState = 0
 
 # Function to return current time stamp UTC
 def timeStamp():
@@ -54,6 +72,11 @@ def loop(file):
 			tempArray.pop(0)
 			rollingAvg = numpy.sum(tempArray)/len(tempArray)
 			print rollingAvg, len(tempArray)
+		if rollingAvg < 75:
+			turnOnPower()
+		elif rollingAvg > 85:
+			turnOffPower()
+		
 		file.write(repr(timeStamp()) + ' ')
 		file.write(repr(deg_c) + ' C, ')
 		file.write(repr(deg_f) + ' F\n')
@@ -61,6 +84,8 @@ def loop(file):
 		time.sleep(1)
 
 def destroy():
+	GPIO.output(RelayPin, GPIO.HIGH)   # Relay off
+	GPIO.cleanup()                     # Release resource
 	file.close()
 
 if __name__ == '__main__':     # Program start from here
