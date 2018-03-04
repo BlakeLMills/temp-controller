@@ -90,7 +90,7 @@ def destroy():
 	file.close()
 
 if __name__ == '__main__':     # Program start from here
-	setup():
+	setup()
 	try:
 		file = open(timeStamp() + "TempRecord.txt", "w", buffsize)
 		loop(file)
