@@ -65,6 +65,7 @@ def read_temp():
 # Loop to call read temp and create a rolling average
 def loop(file):
 	tempArray = []
+	rollingAvg = 75
 	while True:
 		deg_c, deg_f = read_temp()
 		tempArray.append(deg_f)
@@ -89,6 +90,7 @@ def destroy():
 	file.close()
 
 if __name__ == '__main__':     # Program start from here
+	setup():
 	try:
 		file = open(timeStamp() + "TempRecord.txt", "w", buffsize)
 		loop(file)
